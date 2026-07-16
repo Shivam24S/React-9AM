@@ -1,14 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
-import { Table } from 'react-bootstrap'
+import StudentList from "./StudentList";
+import { getStudent } from "../../api/studentFetch";
 
-import students from '../../utils/dummyStudent'
-import StudentList from './StudentList'
+import { Table } from "react-bootstrap";
+import { Spinner, Alert } from "react-bootstrap";
+
+
 
 const Student = () => {
-  return (
+  const [studentData, setStudentData] = useState([]);
 
-    <Table>
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function loadData() {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await getStudent();
+
+      console.log("Data", data);
+
+      setStudentData(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <Spinner animation="border" role="status" className="m-auto">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="danger" className="m-auto">
+        <div>{error}</div>
+      </Alert>
+    );
+  }
+
+  console.log("student data", studentData);
+
+  return (
+    <Table striped hover responsive>
       <thead>
         <tr>
           <th>id</th>
@@ -20,18 +67,12 @@ const Student = () => {
         </tr>
       </thead>
       <tbody>
-        {students.map((s,index) => {
-
-          return (
-            <StudentList student={s} key={s.id} index={index} />
-          )
+        {studentData.map((s, index) => {
+          return <StudentList student={s} key={s.id} index={index} />;
         })}
       </tbody>
     </Table>
+  );
+};
 
-
-
-  )
-}
-
-export default Student
+export default Student;
