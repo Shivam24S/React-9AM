@@ -1,10 +1,15 @@
+// hooks
 import React, { useEffect, useState } from "react";
 
+// components
 import StudentList from "./StudentList";
-import { getStudent } from "../../api/studentFetch";
 
+// react-bootstrap components
 import { Table } from "react-bootstrap";
 import { Spinner, Alert } from "react-bootstrap";
+
+// import { getStudent } from "../api/studentFetch";
+import { getStudent } from "../api/studentAxios";
 
 
 
