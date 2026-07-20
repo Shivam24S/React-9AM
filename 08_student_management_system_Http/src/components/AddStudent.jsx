@@ -3,14 +3,28 @@ import * as formik from "formik";
 
 import studentValidationSchema from "../validation/studentValidation";
 
+// import { addStudent } from "../api/studentFetch";
+import { addStudent } from "../api/studentAxios";
+import { useNavigate } from "react-router-dom";
+
+
 function AddStudent() {
   const { Formik } = formik;
 
+
+  const navigate = useNavigate()
+
   return (
     <Formik
-      // validationSchema={""}
+      validationSchema={studentValidationSchema}
       onSubmit={(values, { resetForm }) => {
-        console.log("Formdata", values);
+        // console.log("Formdata", values);
+
+        addStudent(values);
+
+        alert("student added successfully")
+
+        navigate("/")
 
         resetForm();
       }}

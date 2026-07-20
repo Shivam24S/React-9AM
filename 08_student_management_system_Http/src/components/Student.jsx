@@ -27,7 +27,7 @@ const Student = () => {
   async function loadData() {
     try {
       setLoading(true);
-      setError("");
+      setError(null);
 
       const data = await getStudent();
 
@@ -43,16 +43,18 @@ const Student = () => {
 
   if (loading) {
     return (
-      <Spinner animation="border" role="status" className="m-auto">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div className="d-flex justify-content-center align-items-center w-100 py-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
 
   if (error) {
     return (
       <Alert variant="danger" className="m-auto">
-        <div>{error}</div>
+        <div>{error.message || String(error)}</div>
       </Alert>
     );
   }
@@ -69,6 +71,7 @@ const Student = () => {
           <th>Email</th>
           <th>Phone no</th>
           <th>Course</th>
+          <th colSpan={2} >Action</th>
         </tr>
       </thead>
       <tbody>

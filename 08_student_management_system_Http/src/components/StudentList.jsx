@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Button } from "react-bootstrap";
+
 const StudentList = ({ student, index }) => {
   return (
     <tr>
@@ -9,6 +11,11 @@ const StudentList = ({ student, index }) => {
       <td>{student.email}</td>
       <td>{student.phoneNumber}</td>
       <td>{student.course}</td>
+      <td className="d-flex gap-4" >
+        {<Button variant="warning" >Edit</Button>}
+        {<Button variant="danger" >Delete</Button>}
+      
+      </td>
     </tr>
   );
 };
