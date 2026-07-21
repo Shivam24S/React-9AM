@@ -11,8 +11,6 @@ import { Spinner, Alert } from "react-bootstrap";
 // import { getStudent } from "../api/studentFetch";
 import { getStudent } from "../api/studentAxios";
 
-
-
 const Student = () => {
   const [studentData, setStudentData] = useState([]);
 
@@ -71,7 +69,7 @@ const Student = () => {
           <th>Email</th>
           <th>Phone no</th>
           <th>Course</th>
-          <th colSpan={2} >Action</th>
+          <th colSpan={2}>Action</th>
         </tr>
       </thead>
       <tbody>

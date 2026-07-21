@@ -41,3 +41,21 @@ export async function addStudent(studentData) {
     throw new Error(error.message);
   }
 }
+
+export async function deleteStudent(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to delete student");
+    }
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

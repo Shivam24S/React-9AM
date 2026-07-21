@@ -1,8 +1,18 @@
 import React from "react";
 
 import { Button } from "react-bootstrap";
+// import { deleteStudent } from "../api/studentFetch";
+import { deleteStudent } from "../api/studentAxios";
+import { useNavigate } from "react-router-dom";
 
 const StudentList = ({ student, index }) => {
+  const handleDelete = () => {
+    deleteStudent(student._id);
+    
+
+    alert("student Deleted");
+  };
+
   return (
     <tr>
       <td>{index + 1}</td>
@@ -11,10 +21,13 @@ const StudentList = ({ student, index }) => {
       <td>{student.email}</td>
       <td>{student.phoneNumber}</td>
       <td>{student.course}</td>
-      <td className="d-flex gap-4" >
-        {<Button variant="warning" >Edit</Button>}
-        {<Button variant="danger" >Delete</Button>}
-      
+      <td className="d-flex gap-4">
+        {<Button variant="warning">Edit</Button>}
+        {
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        }
       </td>
     </tr>
   );

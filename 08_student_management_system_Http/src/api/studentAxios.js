@@ -27,3 +27,17 @@ export async function addStudent(studentData) {
     throw new Error(error.message);
   }
 }
+
+export async function deleteStudent(id) {
+  try {
+    const res = await axios.delete(`${BASE_URL}/${id}`);
+
+    if (res.status !== 200) {
+      throw new Error("failed to delete student");
+    }
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
