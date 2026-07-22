@@ -41,3 +41,17 @@ export async function deleteStudent(id) {
     throw new Error(error.message);
   }
 }
+
+export async function updateStudent(id, studentData) {
+  try {
+    const res = await axios.patch(`${BASE_URL}/${id}`, studentData);
+
+    if (res.status !== 200) {
+      throw new Error("failed to update student data");
+    }
+
+    return res.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

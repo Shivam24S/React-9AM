@@ -6,12 +6,24 @@ import { deleteStudent } from "../api/studentAxios";
 import { useNavigate } from "react-router-dom";
 
 const StudentList = ({ student, index }) => {
+
+  const navigate = useNavigate();
+
   const handleDelete = () => {
     deleteStudent(student._id);
-    
+
 
     alert("student Deleted");
   };
+
+
+  const handleEdit = () => {
+
+
+    navigate("/editStudentData", { state: student })
+
+
+  }
 
   return (
     <tr>
@@ -22,7 +34,7 @@ const StudentList = ({ student, index }) => {
       <td>{student.phoneNumber}</td>
       <td>{student.course}</td>
       <td className="d-flex gap-4">
-        {<Button variant="warning">Edit</Button>}
+        {<Button variant="warning" onClick={handleEdit}  >Edit</Button>}
         {
           <Button variant="danger" onClick={handleDelete}>
             Delete
