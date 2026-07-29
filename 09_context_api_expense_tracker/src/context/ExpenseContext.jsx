@@ -1,27 +1,90 @@
-import { createContext, useState } from "react";
-
+import { createContext, use, useState } from "react";
 
 // creating context
 export const ExpenseContext = createContext({
   expenseList: [],
+  addExpense: () => {},
+  deleteExpense: () => {},
+  handleExpenseEdit: () => {},
+  editValue: null,
 });
 
-
-// context provider 
+// context provider
 const ExpenseContextProvider = ({ children }) => {
   const initialState = [
     {
+      id: 1,
+      title: "food",
+      description: "pizza",
       category: "food",
-      expenseName: "pizza",
-      price: 600,
+      amount: 1000,
+      date: "2026-07-30",
       type: "debit",
     },
   ];
 
   const [expenseList, setExpenseList] = useState(initialState);
 
+  const [editValue, setEditValue] = useState(null);
+
+  const addExpense = (input) => {
+    if (!input) {
+      alert("fill all the detail");
+    } else if (editValue) {
+      setExpenseList((prev) =>
+        prev.map((d) =>
+          d.id === editValue.id
+            ? {
+                ...d,
+                title: input.title,
+                description: input.description,
+                category: input.category,
+                amount: input.amount,
+                date: input.date,
+                type: input.type,
+              }
+            : d,
+        ),
+      );
+
+      setEditValue(null);
+    } else {
+      const newExpense = {
+        id: new Date().getTime(),
+        title: input.title,
+        description: input.description,
+        category: input.category,
+        amount: input.amount,
+        date: input.date,
+        type: input.type,
+      };
+
+      setExpenseList((prev) => [...prev, newExpense]);
+    }
+  };
+
+  const deleteExpense = (id) => {
+    const remainExpenseList = expenseList.filter(
+      (expense) => expense.id !== id,
+    );
+
+    setExpenseList(remainExpenseList);
+
+    alert("expense deleted successfully");
+  };
+
+  const handleExpenseEdit = (id) => {
+    const editExpense = expenseList.find((expense) => expense.id === id);
+
+    setEditValue(editExpense);
+  };
+
   const values = {
     expenseList,
+    addExpense,
+    deleteExpense,
+    handleExpenseEdit,
+    editValue,
   };
 
   return (

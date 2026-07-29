@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ExpenseContext } from "../context/ExpenseContext";
 
 const AddExpense = () => {
   const [input, setInput] = useState({
@@ -10,7 +11,13 @@ const AddExpense = () => {
     type: "debit",
   });
 
-  const [data, setData] = useState([]);
+  const { addExpense, editValue } = useContext(ExpenseContext);
+
+  console.log("editValue", editValue);
+
+  useEffect(() => {
+    editValue ? setInput(editValue) : null;
+  }, [editValue]);
 
   const handleChange = (field, e) => {
     setInput((prev) => {
@@ -24,19 +31,17 @@ const AddExpense = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setData((prev) => [...prev, input]);
+    addExpense(input);
 
     setInput({
       title: "",
       description: "",
       category: "",
       amount: 0,
-        date: "",
+      date: "",
       type: "debit",
     });
   };
-
-  console.log("inputData", data);
 
   return (
     <>
@@ -113,7 +118,7 @@ const AddExpense = () => {
 
         <br />
         <br />
-        <button type="submit">add</button>
+        <button type="submit">{editValue ? "update" : "add"}</button>
       </form>
     </>
   );
