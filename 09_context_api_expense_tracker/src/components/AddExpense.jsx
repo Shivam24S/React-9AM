@@ -5,7 +5,7 @@ const AddExpense = () => {
   const [input, setInput] = useState({
     title: "",
     description: "",
-    category: "",
+    category: "General Expense",
     amount: 0,
     date: "",
     type: "debit",
@@ -13,7 +13,7 @@ const AddExpense = () => {
 
   const { addExpense, editValue } = useContext(ExpenseContext);
 
-  console.log("editValue", editValue);
+  console.log("input", input);
 
   useEffect(() => {
     editValue ? setInput(editValue) : null;
@@ -97,7 +97,9 @@ const AddExpense = () => {
         >
           <option value="Money Transfer">Money Transfer</option>
           <option value="Cash Withdrawal">Cash Withdrawal</option>
-          <option value="General Expense">General Expense</option>
+          <option value="General Expense">
+            General Expense
+          </option>
           <option value="Food&Dining">Food&Dining</option>
           <option value="HealthCare">HealthCare</option>
           <option value="Shopping">Shopping</option>
@@ -112,8 +114,12 @@ const AddExpense = () => {
           value={input.type}
           onChange={(e) => handleChange("type", e)}
         >
-          <option value="credit">credit</option>
-          <option value="debit">debit</option>
+          <option name="type" value="credit">
+            credit
+          </option>
+          <option name="type" value="debit">
+            debit
+          </option>
         </select>
 
         <br />

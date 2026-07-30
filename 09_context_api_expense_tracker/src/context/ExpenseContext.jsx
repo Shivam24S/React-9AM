@@ -1,12 +1,15 @@
-import { createContext, use, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 
 // creating context
 export const ExpenseContext = createContext({
   expenseList: [],
-  addExpense: () => {},
-  deleteExpense: () => {},
-  handleExpenseEdit: () => {},
+  addExpense: () => { },
+  deleteExpense: () => { },
+  handleExpenseEdit: () => { },
   editValue: null,
+  balance: 0,
+  credit: 0,
+  debit: 0
 });
 
 // context provider
@@ -23,7 +26,15 @@ const ExpenseContextProvider = ({ children }) => {
     },
   ];
 
-  const [expenseList, setExpenseList] = useState(initialState);
+  const [expenseList, setExpenseList] = useState(() => {
+    const saved = localStorage.getItem("expenses");
+
+    return saved ? JSON.parse(saved) : initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenseList));
+  }, [expenseList]);
 
   const [editValue, setEditValue] = useState(null);
 
@@ -35,14 +46,14 @@ const ExpenseContextProvider = ({ children }) => {
         prev.map((d) =>
           d.id === editValue.id
             ? {
-                ...d,
-                title: input.title,
-                description: input.description,
-                category: input.category,
-                amount: input.amount,
-                date: input.date,
-                type: input.type,
-              }
+              ...d,
+              title: input.title,
+              description: input.description,
+              category: input.category,
+              amount: input.amount,
+              date: input.date,
+              type: input.type,
+            }
             : d,
         ),
       );
@@ -79,12 +90,35 @@ const ExpenseContextProvider = ({ children }) => {
     setEditValue(editExpense);
   };
 
+  const credit = expenseList
+    .filter((l) => l.type === "credit")
+    .reduce((acc, curr) => {
+      return (acc += Number(curr.amount));
+    }, 0);
+
+  const debit = expenseList
+    .filter((l) => l.type === "debit")
+    .reduce((acc, curr) => {
+      return (acc += Number(curr.amount));
+    }, 0);
+
+  console.log("credit", credit);
+
+  console.log("debit", debit);
+
+  const balance = credit - debit
+
+  console.log("balance", balance);
+
   const values = {
     expenseList,
     addExpense,
     deleteExpense,
     handleExpenseEdit,
     editValue,
+    balance,
+    credit,
+    debit,
   };
 
   return (
