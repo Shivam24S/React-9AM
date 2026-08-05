@@ -2,11 +2,12 @@ import React from "react";
 import AddExpense from "./components/AddExpense";
 import ListExpense from "./components/ListExpense";
 import ExpenseData from "./components/ExpenseData";
+import Counter from "./concept/Counter";
 
 const App = () => {
   return (
     <>
-      <AddExpense />
+      {/* <AddExpense />
       <br />
       <br />
 
@@ -16,7 +17,9 @@ const App = () => {
       <br />
       <br />
 
-      <ListExpense />
+      <ListExpense /> */}
+
+      <Counter/>
     </>
   );
 };
