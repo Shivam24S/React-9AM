@@ -21,9 +21,36 @@ const ListExpense = () => {
     });
   };
 
-  const filterList = expenseList.filter((l) =>
-    l.title.toLowerCase().includes(expenseQuery.title.toLowerCase()),
-  );
+  const filterList = expenseList
+    .filter((l) =>
+      l.title.toLowerCase().includes(expenseQuery.title.toLowerCase()),
+    )
+    .filter((l) =>
+      expenseQuery.type === "all" ? true : l.type === expenseQuery.type,
+    )
+    .filter((l) =>
+      expenseQuery.category === "all"
+        ? true
+        : l.category === expenseQuery.category,
+    );
+
+  const sortedList = [...filterList].sort((a, b) => {
+    if (expenseQuery.sort === "asc") {
+      return b.id - a.id;
+    }
+
+    if (expenseQuery.sort === "desc") {
+      return a.id - b.id;
+    }
+
+    if (expenseQuery.sort === "moneyAsc") {
+      return Number(a.amount) - Number(b.amount);
+    }
+
+    if (expenseQuery.sort === "moneyDsc") {
+      return Number(b.amount) - Number(a.amount);
+    }
+  });
 
   return (
     <>
@@ -96,8 +123,8 @@ const ListExpense = () => {
           </tr>
         </thead>
         <tbody>
-          {filterList.length > 0 ? (
-            filterList.map((data, index) => {
+          {sortedList.length > 0 ? (
+            sortedList.map((data, index) => {
               return (
                 <tr key={data.id}>
                   <td>{index + 1}</td>
