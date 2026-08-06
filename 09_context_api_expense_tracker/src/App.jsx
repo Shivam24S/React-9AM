@@ -7,7 +7,7 @@ import Counter from "./concept/Counter";
 const App = () => {
   return (
     <>
-      {/* <AddExpense />
+      <AddExpense />
       <br />
       <br />
 
@@ -17,9 +17,9 @@ const App = () => {
       <br />
       <br />
 
-      <ListExpense /> */}
+      <ListExpense />
 
-      <Counter/>
+      {/* <Counter/> */}
     </>
   );
 };
