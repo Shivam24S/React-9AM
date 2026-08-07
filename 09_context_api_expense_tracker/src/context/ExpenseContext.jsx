@@ -1,7 +1,5 @@
 // import { createContext, use, useEffect, useState } from "react";
 
-
-
 // // creating context
 // export const ExpenseContext = createContext({
 // expenseList: [],
@@ -130,7 +128,7 @@
 
 // export default ExpenseContextProvider;
 
-import { createContext, useState,useReducer } from "react";
+import { createContext, useState, useReducer, useEffect } from "react";
 
 export const ExpenseContext = createContext({
   expenseList: [],
@@ -159,42 +157,89 @@ const initialValues = {
   editValue: null,
 };
 
-// const init = () => {
-//   try {
-//     const saved = localStorage.getItem("expense");
+const init = () => {
+  try {
+    const saved = localStorage.getItem("expense");
 
-//     return saved ? state.expenseList : [...initialValues, JSON.parse(saved)];
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    console.log("saved", saved);
+
+    return saved
+      ? { ...initialValues, expenseList: JSON.parse(saved) }
+      : initialValues;
+  } catch (error) {
+    console.log(error);
+    return initialValues;
+  }
+};
 
 const expenseReducer = (state, action) => {
   switch (action.type) {
     case "add": {
+      const input = action.payload;
 
-      const input = action.payload
+      if (state.editValue !== null) {
+        const updatedList = state.expenseList.map((list) =>
+          list.id === state.editValue.id ? { ...list, ...input } : list,
+        );
 
-      const newExpense = {
-        id: new Date().getTime(),
-        title: input.title,
-        description: input.description,
-        category: input.category,
-        amount: input.amount,
-        date: input.date,
-        type: input.type,
-      };
+        console.log("updated", updatedList);
+
+        return {
+          ...state,
+          expenseList: updatedList,
+          editValue: null,
+        };
+      } else {
+        const newExpense = {
+          id: new Date().getTime(),
+          title: input.title,
+          description: input.description,
+          category: input.category,
+          amount: input.amount,
+          date: input.date,
+          type: input.type,
+        };
+
+        return {
+          ...state,
+          expenseList: [...state.expenseList, newExpense],
+        };
+      }
+    }
+
+    case "edit": {
+      const value = action.payload;
 
       return {
         ...state,
-        expenseList: [...state.expenseList, newExpense],
+        editValue: value,
+      };
+    }
+
+    case "delete": {
+      const id = action.payload;
+
+      const remainList = state.expenseList.filter((l) => l.id !== id);
+
+      return {
+        ...state,
+        expenseList: remainList,
       };
     }
   }
 };
 
 const ExpenseContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(expenseReducer, initialValues);
+  const [state, dispatch] = useReducer(expenseReducer, initialValues, init);
+
+  useEffect(() => {
+    const data = localStorage.setItem(
+      "expense",
+      JSON.stringify(state.expenseList),
+    );
+
+    console.log(localStorage.getItem("expense"));
+  }, [state.expenseList]);
 
   const addExpense = (input) => {
     if (!input) {
@@ -207,9 +252,45 @@ const ExpenseContextProvider = ({ children }) => {
     });
   };
 
+  const handleExpenseEdit = (id) => {
+    const editExpense = state.expenseList.find((l) => l.id === id);
+
+    dispatch({
+      type: "edit",
+      payload: editExpense,
+    });
+  };
+
+  const deleteExpense = (id) => {
+    dispatch({
+      type: "delete",
+      payload: id,
+    });
+  };
+
+  const credit = state.expenseList
+    .filter((l) => l.type === "credit")
+    .reduce((acc, curr) => {
+      return (acc += Number(curr.amount));
+    }, 0);
+
+  const debit = state.expenseList
+    .filter((l) => l.type === "debit")
+    .reduce((acc, curr) => {
+      return (acc += Number(curr.amount));
+    }, 0);
+
+  const balance = credit - debit;
+
   const value = {
-    expenseList:state.expenseList,
-    addExpense
+    expenseList: state.expenseList,
+    addExpense,
+    handleExpenseEdit,
+    editValue: state.editValue,
+    deleteExpense,
+    credit,
+    debit,
+    balance,
   };
 
   return (
