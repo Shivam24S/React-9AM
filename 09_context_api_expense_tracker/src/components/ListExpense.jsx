@@ -1,5 +1,9 @@
 import React, { useContext, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
+import { Container,Row,Col ,Button} from "react-bootstrap";
+import { CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+
 
 const ListExpense = () => {
   const { expenseList, deleteExpense, handleExpenseEdit } =
@@ -54,6 +58,15 @@ const ListExpense = () => {
 
   return (
     <>
+
+    <Container>
+      <Row>
+        <Col>
+        
+        
+        </Col>
+      </Row>
+    </Container>
       <form>
         <label htmlFor="">Title </label>
         <input
@@ -109,7 +122,7 @@ const ListExpense = () => {
       <br />
       <br />
 
-      <table border={2}>
+      <table className="table table-stripped table-hover table-bordered" >
         <thead>
           <tr>
             <th>Id</th>
@@ -135,14 +148,14 @@ const ListExpense = () => {
                   <td>{data.category}</td>
                   <td>{data.type}</td>
                   <td>
-                    <button onClick={() => handleExpenseEdit(data.id)}>
-                      Edit
-                    </button>
+                    <Button className="btn-warning" onClick={() => handleExpenseEdit(data.id)}>
+                    <CiEdit fontSize={20} />  Edit
+                    </Button>
                   </td>
                   <td>
-                    <button onClick={() => deleteExpense(data.id)}>
-                      Delete
-                    </button>
+                    <Button className="btn-danger"  onClick={() => deleteExpense(data.id)}>
+                     <MdDelete fontSize={20}  /> Delete
+                    </Button>
                   </td>
                 </tr>
               );

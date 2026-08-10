@@ -4,22 +4,20 @@ import ListExpense from "./components/ListExpense";
 import ExpenseData from "./components/ExpenseData";
 import Counter from "./concept/Counter";
 
+import { Container, Row, Col } from "react-bootstrap";
+
 const App = () => {
   return (
     <>
-      <AddExpense />
-      <br />
-      <br />
-
-      <ExpenseData />
-
-      <br />
-      <br />
-      <br />
-
-      <ListExpense />
-
-      {/* <Counter/> */}
+      <Container className="mt-2 mb-2">
+        <Row>
+          <Col>
+            <ExpenseData />
+            <AddExpense />
+            <ListExpense />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

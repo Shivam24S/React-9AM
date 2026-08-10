@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
+import { Form, Container, Row, Col } from "react-bootstrap";
 
 const AddExpense = () => {
   const [input, setInput] = useState({
@@ -45,87 +46,95 @@ const AddExpense = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">title</label>
-        <input
-          type="text"
-          placeholder="title"
-          name="title"
-          value={input.title}
-          onChange={(e) => handleChange("title", e)}
-        />
-        <br />
-        <br />
-        <label htmlFor="description">description</label>
-        <input
-          type="text"
-          placeholder="description"
-          name="description"
-          value={input.description}
-          onChange={(e) => handleChange("description", e)}
-        />
-        <br />
-        <br />
-        <label htmlFor="amount">amount</label>
-        <input
-          type="number"
-          placeholder="amount"
-          name="amount"
-          value={input.amount}
-          onChange={(e) => handleChange("amount", e)}
-        />
+      <Container className="card p-5  shadow">
+        <Row>
+          <Form onSubmit={handleSubmit} className="d-flex gap-5 justify-content-center align-items-center">
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label htmlFor="title">title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="title"
+                  name="title"
+                  value={input.title}
+                  onChange={(e) => handleChange("title", e)}
+                />
+              </Form.Group>
+            </Col>
 
-        <br />
-        <br />
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label htmlFor="description">description</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="description"
+                  name="description"
+                  value={input.description}
+                  onChange={(e) => handleChange("description", e)}
+                />
+              </Form.Group>
+            </Col>
+          </Form>
+        </Row>
+      </Container>
 
-        <label htmlFor="date">date</label>
-        <input
-          type="date"
-          name="date"
-          value={input.date}
-          onChange={(e) => handleChange("date", e)}
-        />
+      <label htmlFor="amount">amount</label>
+      <input
+        type="number"
+        placeholder="amount"
+        name="amount"
+        value={input.amount}
+        onChange={(e) => handleChange("amount", e)}
+      />
 
-        <br />
-        <br />
+      <br />
+      <br />
 
-        <label htmlFor="category">category</label>
-        <select
-          name="category"
-          value={input.category}
-          onChange={(e) => handleChange("category", e)}
-        >
-          <option value="Money Transfer">Money Transfer</option>
-          <option value="Cash Withdrawal">Cash Withdrawal</option>
-          <option value="General Expense">
-            General Expense
-          </option>
-          <option value="Food&Dining">Food&Dining</option>
-          <option value="HealthCare">HealthCare</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Travel">Travel</option>
-        </select>
-        <br />
-        <br />
+      <label htmlFor="date">date</label>
+      <input
+        type="date"
+        name="date"
+        value={input.date}
+        onChange={(e) => handleChange("date", e)}
+      />
 
-        <label htmlFor="type">Expense type</label>
-        <select
-          name="type"
-          value={input.type}
-          onChange={(e) => handleChange("type", e)}
-        >
-          <option name="type" value="credit">
-            credit
-          </option>
-          <option name="type" value="debit">
-            debit
-          </option>
-        </select>
+      <br />
+      <br />
 
-        <br />
-        <br />
-        <button type="submit">{editValue ? "update" : "add"}</button>
-      </form>
+      <label htmlFor="category">category</label>
+      <select
+        name="category"
+        value={input.category}
+        onChange={(e) => handleChange("category", e)}
+      >
+        <option value="Money Transfer">Money Transfer</option>
+        <option value="Cash Withdrawal">Cash Withdrawal</option>
+        <option value="General Expense">General Expense</option>
+        <option value="Food&Dining">Food&Dining</option>
+        <option value="HealthCare">HealthCare</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Travel">Travel</option>
+      </select>
+      <br />
+      <br />
+
+      <label htmlFor="type">Expense type</label>
+      <select
+        name="type"
+        value={input.type}
+        onChange={(e) => handleChange("type", e)}
+      >
+        <option name="type" value="credit">
+          credit
+        </option>
+        <option name="type" value="debit">
+          debit
+        </option>
+      </select>
+
+      <br />
+      <br />
+      <button type="submit">{editValue ? "update" : "add"}</button>
     </>
   );
 };
