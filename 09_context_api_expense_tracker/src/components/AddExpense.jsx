@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
-import { Form, Container, Row, Col } from "react-bootstrap";
+import { Form, Container, Row, Col, Button } from "react-bootstrap";
 
 const AddExpense = () => {
   const [input, setInput] = useState({
@@ -46,9 +46,9 @@ const AddExpense = () => {
 
   return (
     <>
-      <Container className="card p-5  shadow">
-        <Row>
-          <Form onSubmit={handleSubmit} className="d-flex gap-5 justify-content-center align-items-center">
+      <Container className="card p-4  shadow">
+        <Form onSubmit={handleSubmit}>
+          <Row>
             <Col md={6}>
               <Form.Group>
                 <Form.Label htmlFor="title">title</Form.Label>
@@ -74,67 +74,76 @@ const AddExpense = () => {
                 />
               </Form.Group>
             </Col>
-          </Form>
-        </Row>
+          </Row>
+
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Amount</Form.Label>
+
+                <Form.Control
+                  type="number"
+                  placeholder="amount"
+                  name="amount"
+                  value={input.amount}
+                  onChange={(e) => handleChange("amount", e)}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="date"
+                  value={input.date}
+                  onChange={(e) => handleChange("date", e)}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Category</Form.Label>
+              </Form.Group>
+              <Form.Select
+                name="category"
+                value={input.category}
+                onChange={(e) => handleChange("category", e)}
+              >
+                <option value="Money Transfer">Money Transfer</option>
+                <option value="Cash Withdrawal">Cash Withdrawal</option>
+                <option value="General Expense">General Expense</option>
+                <option value="Food&Dining">Food&Dining</option>
+                <option value="HealthCare">HealthCare</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Travel">Travel</option>
+              </Form.Select>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Expense Type</Form.Label>
+                <Form.Select
+                  name="type"
+                  value={input.type}
+                  onChange={(e) => handleChange("type", e)}
+                >
+                  <option name="type" value="credit">
+                    credit
+                  </option>
+                  <option name="type" value="debit">
+                    debit
+                  </option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Button className="mt-3 w-100" type="submit">
+            {editValue ? "Update" : "Add"}
+          </Button>
+        </Form>
       </Container>
-
-      <label htmlFor="amount">amount</label>
-      <input
-        type="number"
-        placeholder="amount"
-        name="amount"
-        value={input.amount}
-        onChange={(e) => handleChange("amount", e)}
-      />
-
-      <br />
-      <br />
-
-      <label htmlFor="date">date</label>
-      <input
-        type="date"
-        name="date"
-        value={input.date}
-        onChange={(e) => handleChange("date", e)}
-      />
-
-      <br />
-      <br />
-
-      <label htmlFor="category">category</label>
-      <select
-        name="category"
-        value={input.category}
-        onChange={(e) => handleChange("category", e)}
-      >
-        <option value="Money Transfer">Money Transfer</option>
-        <option value="Cash Withdrawal">Cash Withdrawal</option>
-        <option value="General Expense">General Expense</option>
-        <option value="Food&Dining">Food&Dining</option>
-        <option value="HealthCare">HealthCare</option>
-        <option value="Shopping">Shopping</option>
-        <option value="Travel">Travel</option>
-      </select>
-      <br />
-      <br />
-
-      <label htmlFor="type">Expense type</label>
-      <select
-        name="type"
-        value={input.type}
-        onChange={(e) => handleChange("type", e)}
-      >
-        <option name="type" value="credit">
-          credit
-        </option>
-        <option name="type" value="debit">
-          debit
-        </option>
-      </select>
-
-      <br />
-      <br />
-      <button type="submit">{editValue ? "update" : "add"}</button>
     </>
   );
 };
