@@ -10,6 +10,7 @@ const initialState = {
       category: "electronics",
     },
   ],
+  editValue: null,
 };
 
 const inventorySlice = createSlice({
@@ -26,12 +27,33 @@ const inventorySlice = createSlice({
       };
 
       state.products.push(newProduct);
+    },
 
-      console.log("state",[...state.products])
+    handleDelete: (state, action) => {
+      state.products = state.products.filter((p) => p.id !== action.payload);
+    },
+
+    setEditValue: (state, action) => {
+      state.editValue = state.products.find((p) => p.id === action.payload);
+    },
+
+    handleEdit: (state, action) => {
+      const ProductIndex = state.products.findIndex(
+        (p) => p.id === state.editValue.id,
+      );
+
+      console.log("product index", ProductIndex);
+
+      if (ProductIndex !== -1) {
+        state.products[ProductIndex] = action.payload;
+      }
+
+      state.editValue = null;
     },
   },
 });
 
-export const { add } = inventorySlice.actions;
+export const { add, handleDelete, setEditValue, handleEdit } =
+  inventorySlice.actions;
 
 export default inventorySlice.reducer;

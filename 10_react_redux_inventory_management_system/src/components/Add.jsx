@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../features/inventorySlice";
+import { add, handleEdit } from "../features/inventorySlice";
 
 const Add = () => {
   const products = useSelector((state) => state.inventory.products);
 
+  const editValue = useSelector((state) => state.inventory.editValue);
+
+  console.log("edit value",editValue)
+
   const dispatch = useDispatch();
-
-
-  console.log("products",products)
-
 
   const [inputs, setInputs] = useState({
     name: "",
@@ -27,12 +27,20 @@ const Add = () => {
     });
   };
 
+  useEffect(() => {
+    editValue ? setInputs(editValue) : null;
+  }, [editValue]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(add(inputs));
-
-    setInputs({ name: "", qty: 0, price: 0, category: "" });
+    if (editValue) {
+      dispatch(handleEdit(inputs));
+      setInputs({ name: "", qty: 0, price: 0, category: "" });
+    } else {
+      dispatch(add(inputs));
+      setInputs({ name: "", qty: 0, price: 0, category: "" });
+    }
   };
 
   return (
@@ -66,7 +74,7 @@ const Add = () => {
       <br />
       <br />
 
-<label htmlFor="category">category</label>
+      <label htmlFor="category">category</label>
       <input
         type="text"
         placeholder="enter product category"
@@ -77,7 +85,7 @@ const Add = () => {
       <br />
       <br />
 
-      <button type="submit">submit</button>
+      <button type="submit">{editValue ? "update":"add"}</button>
     </form>
   );
 };
