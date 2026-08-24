@@ -3,12 +3,40 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [
     {
-      id: 1,
-      name: "phone",
-      qty: 1,
-      price: 50000,
-      category: "electronics",
-    },
+    id: 1,
+    name: "phone",
+    qty: 1,
+    price: 50000,
+    category: "electronics",
+  },
+  {
+    id: 2,
+    name: "laptop",
+    qty: 2,
+    price: 75000,
+    category: "electronics",
+  },
+  {
+    id: 3,
+    name: "headphones",
+    qty: 3,
+    price: 3000,
+    category: "electronics",
+  },
+  {
+    id: 4,
+    name: "backpack",
+    qty: 1,
+    price: 2500,
+    category: "fashion",
+  },
+  {
+    id: 5,
+    name: "watch",
+    qty: 2,
+    price: 5000,
+    category: "accessories",
+  },
   ],
   editValue: null,
 };

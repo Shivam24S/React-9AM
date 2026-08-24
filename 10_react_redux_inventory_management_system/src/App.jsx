@@ -3,6 +3,7 @@ import Counter from "./concept/Counter";
 import { useSelector } from "react-redux";
 import Add from "./components/add";
 import ProductsList from "./components/ProductsList";
+import InventoryStats from "./components/InventoryStats";
 
 const App = () => {
   return (
@@ -15,6 +16,8 @@ const App = () => {
 
 
       {/* project */}
+
+      <InventoryStats/>
 
       <Add/>
 
