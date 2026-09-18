@@ -3,8 +3,9 @@ import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth, googleProvider } from "../config/firebase";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -49,6 +50,12 @@ const Auth = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    setUser(result.user.email);
+  };
+
   return (
     <>
       <Container>
@@ -85,6 +92,10 @@ const Auth = () => {
                 </Button>
                 <Button onClick={() => setIsLogin(!isLogin)}>
                   {isLogin ? "new user ? Sign up" : "already user"}{" "}
+                </Button>
+
+                <Button variant="warning" onClick={handleGoogleLogin}>
+                  Login with Google
                 </Button>
               </Card>
             </Form>
