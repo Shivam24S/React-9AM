@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 function NavbarComponent() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary shadow-sm">
       <Container>
         <Navbar.Brand href="#home">TripVerse</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
