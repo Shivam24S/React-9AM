@@ -1,16 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import MainLayout from "./router/MainLayout";
-import Home from "./components/pages/Home";
-import Trips from "./components/pages/Trips";
-import TripDetail from "./components/pages/TripDetail";
-import Auth from "./components/forms/Auth";
+import { lazy } from "react";
+import { Suspense } from "react";
+import Loading from "./components/ui/Loading";
+import Error from "./components/ui/Error";
+
+const Home = lazy(() => import("./components/pages/Home"))
+const Trips = lazy(() => import("./components/pages/Trips"))
+const TripDetail = lazy(() => import("./components/pages/TripDetail"))
+const Auth = lazy(() => import("./components/forms/Auth"))
 
 const App = () => {
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout />,
+      errorElement: <Error />,
       children: [
         {
           index: true,
@@ -34,7 +41,9 @@ const App = () => {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loading />} >
+        <RouterProvider router={router} />
+      </Suspense>
     </>
   );
 };

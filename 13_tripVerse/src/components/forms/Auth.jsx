@@ -9,11 +9,13 @@ import {
     Button,
 } from "react-bootstrap";
 
-import { auth } from "../../config/firebase";
+import { auth, googleProvider } from "../../config/firebase";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signInWithPopup,
 } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
     const [authData, setAuthData] = useState({
@@ -38,15 +40,45 @@ const Auth = () => {
         e.preventDefault();
 
         if (isLogin) {
-            const result = await signInWithEmailAndPassword(auth, authData.email, authData.password);
+            const result = await signInWithEmailAndPassword(
+                auth,
+                authData.email,
+                authData.password,
+            );
 
-            console.log("result", result.user.email);
+            if (!result) {
+                navigate("/auth")
+            } else {
+                navigate("/trips")
+            }
+
         } else {
-            const result = await createUserWithEmailAndPassword(auth, authData.email, authData.password);
+            const result = await createUserWithEmailAndPassword(
+                auth,
+                authData.email,
+                authData.password,
+            );
 
-            console.log("result", result);
+
+            if (!result) {
+                navigate("/auth")
+            } else {
+                navigate("/trips")
+            }
         }
     };
+
+
+    const handleGoogleLogin = async () => {
+
+        const result = await signInWithPopup(auth, googleProvider);
+
+        console.log("google result", result)
+
+    }
+
+    const navigate = useNavigate()
+
 
     return (
         <Container>
@@ -78,8 +110,12 @@ const Auth = () => {
                                 />
                             </FloatingLabel>
                             <br />
-                            <div className="d-grid gap-4">
+                            <div className="d-grid gap-4 mb-2">
                                 <Button type="submit">{isLogin ? "Login" : "sign up"}</Button>
+                            </div>
+
+                            <div className="d-grid gap-4 ">
+                                <Button variant="success" onClick={handleGoogleLogin} >continue with google</Button>
                             </div>
                             <small className="d-flex justify-content-center align-items-center mt-2">
                                 <span type="button" onClick={() => setIsLogin(!isLogin)}>
