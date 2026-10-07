@@ -16,7 +16,11 @@ const TripDetail = () => {
 
   const trip = trips.find((t) => t.id === Number(id));
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const handleBookings = () => {
+    navigate(`/booking/${id}`);
+  };
 
   return (
     <>
@@ -118,7 +122,7 @@ const TripDetail = () => {
             </Row>
 
             <Row>
-              <Col className="mt-3" >
+              <Col className="mt-3">
                 <Card className="shadow p-3">
                   <h5>Best time to visit</h5>
                   <p>{trip.bestTimeToVisit}</p>
@@ -126,23 +130,29 @@ const TripDetail = () => {
               </Col>
             </Row>
 
-            <Button variant="outline-dark" className="mt-3 mb-5" onClick={() => navigate(-1)} > Back to Trips</Button>
-
+            <Button
+              variant="outline-dark"
+              className="mt-3 mb-5"
+              onClick={() => navigate(-1)}
+            >
+              {" "}
+              Back to Trips
+            </Button>
           </Col>
-          <Col className="mt-3" lg={4}  >
+          <Col className="mt-3" lg={4}>
             <Card className="shadow p-3 sticky-top" style={{ top: "90px" }}>
               <h4>₹ {trip.price}</h4>
-              <h6 className="text-secondary">{trip.duration} • {trip.difficulty} </h6>
+              <h6 className="text-secondary">
+                {trip.duration} • {trip.difficulty}{" "}
+              </h6>
               <div className="d-grid gap-2">
-                <Button>Book Now</Button>
-                <Button variant="outline-secondary" >Enquire</Button>
+                <Button onClick={handleBookings}>Book Now</Button>
+                <Button variant="outline-secondary">Enquire</Button>
               </div>
             </Card>
           </Col>
         </Row>
-
-
-      </Container >
+      </Container>
     </>
   );
 };

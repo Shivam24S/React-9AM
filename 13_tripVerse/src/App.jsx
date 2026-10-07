@@ -5,14 +5,15 @@ import { lazy } from "react";
 import { Suspense } from "react";
 import Loading from "./components/ui/Loading";
 import Error from "./components/ui/Error";
+import BookingForm from "./components/forms/BookingForm";
+import ProtectedRoute from "./router/ProtectedRoute";
 
-const Home = lazy(() => import("./components/pages/Home"))
-const Trips = lazy(() => import("./components/pages/Trips"))
-const TripDetail = lazy(() => import("./components/pages/TripDetail"))
-const Auth = lazy(() => import("./components/forms/Auth"))
+const Home = lazy(() => import("./components/pages/Home"));
+const Trips = lazy(() => import("./components/pages/Trips"));
+const TripDetail = lazy(() => import("./components/pages/TripDetail"));
+const Auth = lazy(() => import("./components/forms/Auth"));
 
 const App = () => {
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -25,23 +26,32 @@ const App = () => {
         },
         {
           path: "trips",
-          element: <Trips />
+          element: <Trips />,
         },
         {
           path: "trips/:id",
-          element: <TripDetail />
+          element: <TripDetail />,
         },
         {
           path: "auth",
-          element: <Auth />
-        }
+          element: <Auth />,
+        },
+        {
+          element: <ProtectedRoute />,
+          children: [
+            {
+              path: "booking/:id",
+              element: <BookingForm />,
+            },
+          ],
+        },
       ],
     },
   ]);
 
   return (
     <>
-      <Suspense fallback={<Loading />} >
+      <Suspense fallback={<Loading />}>
         <RouterProvider router={router} />
       </Suspense>
     </>
