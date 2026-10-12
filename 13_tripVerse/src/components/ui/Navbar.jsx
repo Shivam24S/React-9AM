@@ -35,7 +35,17 @@ function NavbarComponent() {
                 <Button>Login</Button>
               </Nav.Link>
             ) : (
-              <Button onClick={handleLogOut}>Log out </Button>
+              <>
+                <Nav.Link as={NavLink} to="/myBookings">
+                  My Bookings
+                </Nav.Link>
+
+
+                <Button onClick={handleLogOut}>Log out </Button>
+
+              </>
+
+
             )}
           </Nav>
         </Navbar.Collapse>

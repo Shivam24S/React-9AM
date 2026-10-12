@@ -7,6 +7,7 @@ import Loading from "./components/ui/Loading";
 import Error from "./components/ui/Error";
 import BookingForm from "./components/forms/BookingForm";
 import ProtectedRoute from "./router/ProtectedRoute";
+import MyBookings from "./components/pages/MyBookings";
 
 const Home = lazy(() => import("./components/pages/Home"));
 const Trips = lazy(() => import("./components/pages/Trips"));
@@ -36,6 +37,9 @@ const App = () => {
           path: "auth",
           element: <Auth />,
         },
+
+
+
         {
           element: <ProtectedRoute />,
           children: [
@@ -43,6 +47,12 @@ const App = () => {
               path: "booking/:id",
               element: <BookingForm />,
             },
+
+            {
+              path: "myBookings",
+              element: <MyBookings />,
+            },
+
           ],
         },
       ],
