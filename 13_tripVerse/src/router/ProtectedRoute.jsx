@@ -1,21 +1,20 @@
-import { useContext } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { authContext } from "../context/AuthContext";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
+import Loading from "../components/ui/Loading";
 
 const ProtectedRoute = () => {
-    const { user, loading } = useContext(authContext);
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
+  if (loading) {
+    return <Loading message="Verifying authentication session..." />;
+  }
 
-    if (loading) {
-        return <h1 className="text-center">Checking authentication....</h1>;
-    }
+  if (!user) {
+    return <Navigate to="/auth" state={{ from: location }} replace />;
+  }
 
-    if (!user) {
-        return <Navigate to="/auth" replace />;
-    }
-
-
-    return <Outlet />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
