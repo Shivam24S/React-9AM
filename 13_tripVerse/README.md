@@ -1,5 +1,7 @@
 # TripVerse — Premium Curated Travel & Journeys
 
+LIVE URL:- https://fir-auth-9am.web.app/myBookings
+
 TripVerse is an end-to-end, high-performance travel discovery and reservation web application built with **React 19**, **Vite**, **React Router DOM**, **Bootstrap 5**, **React-Bootstrap**, **Firebase Authentication**, and **Cloud Firestore**.
 
 The platform provides a modern, boutique travel agency experience: discovering curated itineraries, filtering trips by style and budget, managing persistent wishlists, viewing interactive day-by-day itineraries with photo galleries, calculating transparent totals, and reserving journeys with a user-scoped booking dashboard.
@@ -9,6 +11,7 @@ The platform provides a modern, boutique travel agency experience: discovering c
 ## 🌟 Key Features
 
 ### 1. Immersive Discovery & Homepage
+
 - **Cinematic Hero**: Impactful photography, aspirational copy, and live multi-criteria search.
 - **Search Bar**: Filter by destination keywords, travel style, and budget range with instant routing to catalog.
 - **Featured Journeys**: Dynamic destination cards powered by real metadata (`src/data/Trips.js`).
@@ -18,6 +21,7 @@ The platform provides a modern, boutique travel agency experience: discovering c
 - **Traveler Feedback**: Illustrative demo community testimonials.
 
 ### 2. Comprehensive Catalog & Advanced Filtering
+
 - **Multi-Filter Engine**: Filter by search query (title, destination, country), travel category, budget tiers, and duration length (short vs. extended).
 - **Dynamic Sorting**: Sort by price (low-to-high, high-to-low), guest rating, and alphabetical title.
 - **URL Query Synchronization**: Filter states reflect in URL query parameters (`useSearchParams`), enabling shareable search links and refresh persistence.
@@ -25,6 +29,7 @@ The platform provides a modern, boutique travel agency experience: discovering c
 - **Instant Reset & Counters**: Accurate result counters and one-click filter resets.
 
 ### 3. Detailed Itinerary Experience
+
 - **Interactive Gallery**: Main image viewer with clickable thumbnail gallery strip and automatic fallback on broken URLs.
 - **Quick Metrics**: Duration, difficulty rating, guest review counts, and per-person rates.
 - **Structured Day-by-Day Itinerary**: Clean accordion interface with day badges and detailed day notes.
@@ -34,6 +39,7 @@ The platform provides a modern, boutique travel agency experience: discovering c
 - **Related Recommendations**: Recommends similar trips within the same category or style.
 
 ### 4. Robust Authentication & Protected Flow
+
 - **Firebase Authentication**: Email & password login, new account registration with display name, and Google OAuth Popup.
 - **Return Redirect Support**: Unauthenticated guests attempting to book are redirected to `/auth` with return state (`state: { from: location }`), returning them directly to their reservation on login.
 - **Password Visibility Toggle**: Inline toggle with SVG icons.
@@ -42,6 +48,7 @@ The platform provides a modern, boutique travel agency experience: discovering c
 - **Fast Refresh Compliance**: Split context instances and custom hooks (`useAuth`, `useWishlist`, `useTheme`) in standalone `.js` files.
 
 ### 5. Verified Booking & Cloud Firestore Integration
+
 - **Client & Schema Validation**: Name, email format, phone digits (7-15), minimum tomorrow departure date, and traveler count (1-20).
 - **Dynamic Pricing Calculation**: Grand Total computed derived from validated trip price and traveler count (`pricePerPerson * numberOfTravelers`).
 - **Double-Submit Prevention**: Button disabled with spinner during active asynchronous submissions.
@@ -49,11 +56,13 @@ The platform provides a modern, boutique travel agency experience: discovering c
 - **Cancellation Workflow**: Users can cancel existing bookings with an accessible `ConfirmationModal`.
 
 ### 6. Personal Wishlist System
+
 - **Heart Toggle on Cards**: Save or remove trips directly from any card or detail page.
 - **Firestore & Offline Sync**: Synchronizes wishlist with `doc(db, "wishlists", user.uid)` for logged-in users, with seamless `localStorage` fallback.
 - **Dedicated Wishlist View**: `/wishlist` route displaying saved items and quick-add links.
 
 ### 7. Dual Theme System (Light / Dark Mode)
+
 - **Persisted Preference**: Automatically respects system OS dark preference or user selection.
 - **CSS Variable Tokens**: Instantaneous theme switching via `data-theme` attribute on `<html>` with zero CSS flashes.
 
@@ -131,12 +140,15 @@ The platform provides a modern, boutique travel agency experience: discovering c
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Configure Environment Variables
+
 Create or verify `.env` in the root directory:
+
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
@@ -147,21 +159,25 @@ VITE_FIREBASE_APP_ID=your_app_id
 ```
 
 ### 3. Run Automated Tests
+
 ```bash
 npm test
 ```
 
 ### 4. Run Linter
+
 ```bash
 npm run lint
 ```
 
 ### 5. Start Development Server
+
 ```bash
 npm run dev
 ```
 
 ### 6. Build for Production
+
 ```bash
 npm run build
 ```
@@ -171,25 +187,34 @@ npm run build
 ## 🔒 Firestore Security Rules & Indexes
 
 ### Security Rules (`firestore.rules`)
+
 Deploy rules to protect user data:
+
 ```bash
 firebase deploy --only firestore:rules
 ```
+
 Rules ensure:
+
 - Only authenticated users can read, create, or cancel their own bookings (`userId == request.auth.uid`).
 - Cross-user data leaks or unauthorized updates are rejected by Firestore.
 - User wishlists are strictly scoped to the owner UID.
 
 ### Composite Index (`firestore.indexes.json`)
+
 Deploy the composite index required for sorting bookings:
+
 ```bash
 firebase deploy --only firestore:indexes
 ```
+
 Index specification:
+
 - Collection: `bookings`
 - Fields: `userId` (ASC), `createdAt` (DESC)
 
 ---
 
 ## 📄 License
+
 Private project. Developed for TripVerse.
